@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Qunit Test</title>
+  <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.14.0.css">
+  <script type="text/javascript">
+    var RT = {};
+  </script>
+</head>
+<body>
+  <div id="qunit"></div>
+  
+<script src="//code.jquery.com/qunit/qunit-1.14.0.js"></script>
+<script src="base64.js"></script>
+<script type="text/javascript">
+QUnit.test( 'Encoding test', function(assert) {
+
+  enc_assert_equal("", "");
+  enc_assert_equal("AA==", "\0");
+  enc_assert_equal("AAA=", "\0\0");
+  enc_assert_equal("AAAA", "\0\0\0");
+  enc_assert_equal("/w==", "\377");
+  enc_assert_equal("//8=", "\377\377");
+  enc_assert_equal("////", "\377\377\377");
+  enc_assert_equal("/+8=", "\xff\xef"); 
+  enc_assert_equal("aHR0cDovL3d3dy5ydXRlbi5jb20udHcv", "http://www.ruten.com.tw/"); 
+  enc_assert_equal("aHR0cDovL2NsYXNzLnJ1dGVuLmNvbS50dy91c2VyL2luZGV4MDAucGhwP3M9YWMwMg==", "http://class.ruten.com.tw/user/index00.php?s=ac02"); 
+
+  function enc_assert_equal( str1, str2 ){
+    assert.strictEqual( RT.mybid.base64Encode(str2), str1, "Expected encoded result of "+str2+" should be "+str1 );
+  }  
+});
+
+QUnit.test( 'Decoding test', function(assert) {
+
+  dec_assert_equal("", (""));
+  dec_assert_equal("A ", ("QSA="));
+  dec_assert_equal("\0", ("AA=="));
+  dec_assert_equal("\0\0", ("AAA="));
+  dec_assert_equal("\0\0\0", ("AAAA"));
+  dec_assert_equal("\377", ("/w=="));
+  dec_assert_equal("\377\377", ("//8="));
+  dec_assert_equal("\377\377\377", ("////"));
+  dec_assert_equal("\xff\xef", ("/+8="));
+  dec_assert_equal( "http://www.ruten.com.tw/", "aHR0cDovL3d3dy5ydXRlbi5jb20udHcv" ); 
+  dec_assert_equal( "http://class.ruten.com.tw/user/index00.php?s=ac02", "aHR0cDovL2NsYXNzLnJ1dGVuLmNvbS50dy91c2VyL2luZGV4MDAucGhwP3M9YWMwMg==" ); 
+  dec_assert_equal( "http://xeonicca.mybid.dev.ruten.com.tw/master/my.php?export_list%5Bsel_confirmed%5D=sel_confirmed_export&export_list%5Bsel_full%5D=sel_full_export&l_type=sel_full&p=1&p_size=30&o_sort=0&o_column=6&s_year=2014&s_month=07&s_day=06&e_year=2014&e_month=08&e_day=06&s_content=&s_type=0&has_search=0", "aHR0cDovL3hlb25pY2NhLm15YmlkLmRldi5ydXRlbi5jb20udHcvbWFzdGVyL215LnBocD9leHBvcnRfbGlzdCU1QnNlbF9jb25maXJtZWQlNUQ9c2VsX2NvbmZpcm1lZF9leHBvcnQmZXhwb3J0X2xpc3QlNUJzZWxfZnVsbCU1RD1zZWxfZnVsbF9leHBvcnQmbF90eXBlPXNlbF9mdWxsJnA9MSZwX3NpemU9MzAmb19zb3J0PTAmb19jb2x1bW49NiZzX3llYXI9MjAxNCZzX21vbnRoPTA3JnNfZGF5PTA2JmVfeWVhcj0yMDE0JmVfbW9udGg9MDgmZV9kYXk9MDYmc19jb250ZW50PSZzX3R5cGU9MCZoYXNfc2VhcmNoPTA=" ); 
+
+  function dec_assert_equal( str1, str2 ){
+    assert.strictEqual( RT.mybid.base64Decode(str2), str1, "Expected decoded result of "+str2+" should be "+str1 );
+  }  
+});
+
+
+</script>
+</body>
+</html>
