@@ -8,7 +8,7 @@
   var base64list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
   RT.mybid.base64Encode = function( plain ){
-    var i = 0, encoded = '', enc1, enc2, enc3, plain1, plain2, plain3;
+    var i = 0, encoded = '', enc1, enc2, enc3, enc4, plain1, plain2, plain3;
     while( i < plain.length ){
       plain1 = plain.charCodeAt(i++);
       plain2 = plain.charCodeAt(i++);
