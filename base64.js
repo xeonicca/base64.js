@@ -15,9 +15,9 @@
       plain3 = plain.charCodeAt(i++);
       
       enc1 = plain1 >> 2;
-      enc2 = (plain1 & 3) << 4 | plain2 >> 4 ;
-      enc3 = (plain2 & 15) << 2 | plain3 >> 6;
-      enc4 = plain3 & 63;
+      enc2 = (plain1&3) << 4 | plain2 >> 4 ;
+      enc3 = (plain2&15) << 2 | plain3 >> 6;
+      enc4 = plain3&63;
       
       if( isNaN(plain2) ) {
         enc3 = enc4 = 64;
@@ -32,31 +32,30 @@
 
 
   RT.mybid.base64Decode = function( encoded ){
-    encoded = encoded.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+    encoded = encoded.replace( /[^A-Za-z0-9\+\/=]/g, '' );
     var i = 0, plain = '', last_padding = false, second_last_padding = false, imax = encoded.length,
     enc1, enc2, enc3, enc4, b64str = '';
 
-    if( '=' === encoded.charAt(imax-1) ){
+    if( '=' === encoded.charAt( imax-1 ) ){
       last_padding = true;
-      if( '=' === encoded.charAt(imax-2) ){
+      if( '=' === encoded.charAt( imax-2 ) ){
         second_last_padding = true;
       }
-      imax -=4;
+      imax -= 4;
     }
 
     while( i < imax ){
-      enc1 = base64list.indexOf(encoded[i++]);
-      enc2 = base64list.indexOf(encoded[i++]);
-      enc3 = base64list.indexOf(encoded[i++]);
-      enc4 = base64list.indexOf(encoded[i++]);
-
+      enc1 = base64list.indexOf( encoded[i++] );
+      enc2 = base64list.indexOf( encoded[i++] );
+      enc3 = base64list.indexOf( encoded[i++] );
+      enc4 = base64list.indexOf( encoded[i++] );
       plain += String.fromCharCode( enc1<<2 | ((enc2&48)>>4), (enc2&15)<<4 | ((enc3&60)>>2), (enc3&3)<<6 | (enc4) );
     }
 
     if( second_last_padding || last_padding ){
-      enc1 = base64list.indexOf(encoded[i++]);
-      enc2 = base64list.indexOf(encoded[i++]);
-      enc3 = base64list.indexOf(encoded[i++]);
+      enc1 = base64list.indexOf( encoded[i++] );
+      enc2 = base64list.indexOf( encoded[i++] );
+      enc3 = base64list.indexOf( encoded[i++] );
 
       if( second_last_padding ){
         b64str = enc1 << 18 | enc2 << 12;
